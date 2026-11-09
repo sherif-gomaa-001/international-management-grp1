@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>International Management — Final Exam Analysis &amp; Solutions</title>
+<style>
+/* ============================================================
+   0. RESET & TOKENS
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05070f;
+  --ink:#eef2ff;
+  --muted:#95a3c4;
+  --gold:#e8b923;
+  --gold2:#ffd76e;
+  --teal:#2ee6c5;
+  --violet:#7c5cff;
+  --red:#ff4d5e;
+  --blue:#3b9dff;
+  --glass:rgba(255,255,255,.045);
+  --line:rgba(255,255,255,.10);
+  --radius:18px;
+}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ============================================================
+   1. BACKGROUND LAYERS
+   ============================================================ */
+#bg{position:fixed;inset:0;z-index:-4;display:block}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
+  background:
+    radial-gradient(1200px 700px at 12% -12%, rgba(124,92,255,.22), transparent 62%),
+    radial-gradient(950px 650px at 102% 6%, rgba(46,230,197,.13), transparent 62%),
+    radial-gradient(1100px 800px at 50% 122%, rgba(232,185,35,.12), transparent 62%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(circle at 50% 42%, #000 0%, transparent 78%);
+  mask-image:radial-gradient(circle at 50% 42%, #000 0%, transparent 78%);
+}
+
+/* ============================================================
+   2. DECK & SLIDE BASE
+   ============================================================ */
+#deck{position:fixed;inset:0}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:76px 6vw 108px;
+  overflow-y:auto;overflow-x:hidden;
+  opacity:0;visibility:hidden;
+  transform:scale(.985) translateY(14px);
+  transition:opacity .55s ease, transform .55s cubic-bezier(.16,.84,.44,1), visibility .55s;
+  scrollbar-width:thin;scrollbar-color:rgba(232,185,35,.45) transparent;
+}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:rgba(232,185,35,.35);border-radius:8px}
+.slide.active{opacity:1;visibility:visible;transform:none}
+
+/* ============================================================
+   3. REVEAL ANIMATION SYSTEM
+   ============================================================ */
+.reveal{opacity:0}
+.slide.active .reveal{animation:rise .85s cubic-bezier(.16,.84,.44,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+.reveal.left{transform:translateX(-46px)}
+.slide.active .reveal.left{animation-name:fromLeft}
+@keyframes fromLeft{from{opacity:0;transform:translateX(-46px)}to{opacity:1;transform:none}}
+
+.reveal.right{transform:translateX(46px)}
+.slide.active .reveal.right{animation-name:fromRight}
+@keyframes fromRight{from{opacity:0;transform:translateX(46px)}to{opacity:1;transform:none}}
+
+.reveal.zoom{transform:scale(.82)}
+.slide.active .reveal.zoom{animation-name:zoomIn}
+@keyframes zoomIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+
+.reveal.blur{filter:blur(14px)}
+.slide.active .reveal.blur{animation-name:blurIn}
+@keyframes blurIn{from{opacity:0;filter:blur(14px);transform:translateY(18px)}to{opacity:1;filter:blur(0);transform:none}}
+
+/* ============================================================
+   4. TYPOGRAPHY & SHARED COMPONENTS
+   ============================================================ */
+.eyebrow{
+  display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold);opacity:.95;
+}
+h1{font-size:clamp(46px,7.4vw,102px);line-height:.94;letter-spacing:-.045em;font-weight:800}
+h2{
+  font-size:clamp(26px,3.35vw,48px);line-height:1.05;letter-spacing:-.03em;
+  font-weight:800;margin:14px 0 10px;
+}
+h3{font-size:clamp(15px,1.25vw,18px);font-weight:700;letter-spacing:-.01em}
+.lead{font-size:clamp(13.5px,1.15vw,16.5px);color:var(--muted);line-height:1.62;max-width:88ch}
+.lead.big{font-size:clamp(15px,1.5vw,21px);color:#c3cdea;max-width:70ch;margin-top:22px}
+strong{color:#fff;font-weight:700}
+em{color:var(--gold2);font-style:italic}
+
+.grad{
+  background:linear-gradient(100deg,#ffd76e,#e8b923 26%,#ff4d5e 62%,#7c5cff 96%);
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shift 9s linear infinite;
+}
+@keyframes shift{to{background-position:220% 0}}
+
+.q-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:52px;height:34px;padding:0 14px;border-radius:999px;
+  font-size:13px;font-weight:900;letter-spacing:.06em;
+  color:#1a1200;background:linear-gradient(135deg,var(--gold2),var(--gold) 55%,#c9930d);
+  box-shadow:0 0 26px rgba(232,185,35,.45), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.hdr-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+
+.card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(158deg,rgba(255,255,255,.075),rgba(255,255,255,.022));
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:transform .38s cubic-bezier(.16,.84,.44,1),border-color .38s,box-shadow .38s;
+}
+.card:hover{
+  transform:translateY(-7px);
+  border-color:rgba(232,185,35,.45);
+  box-shadow:0 22px 54px -22px rgba(232,185,35,.5);
+}
+.card p{font-size:clamp(12.8px,1.02vw,14.6px);line-height:1.6;color:var(--muted)}
+.card p + p{margin-top:8px}
+.card.gold{border-color:rgba(232,185,35,.35)}
+.card.teal{border-color:rgba(46,230,197,.32)}
+.card.violet{border-color:rgba(124,92,255,.34)}
+.card.red{border-color:rgba(255,77,94,.32)}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(232,185,35,.85),transparent);
+  opacity:.0;transition:opacity .4s;
+}
+.card:hover::before{opacity:1}
+
+.num{
+  width:36px;height:36px;flex:0 0 auto;border-radius:50%;
+  display:grid;place-items:center;font-weight:900;font-size:15px;
+  color:#1a1200;background:linear-gradient(135deg,var(--gold2),var(--gold) 60%,#c9930d);
+  box-shadow:0 0 22px rgba(232,185,35,.42);
+}
+.num.teal{background:linear-gradient(135deg,#8afff0,var(--teal) 60%,#0e9c86);color:#04211c;box-shadow:0 0 22px rgba(46,230,197,.42)}
+.num.violet{background:linear-gradient(135deg,#c3b2ff,var(--violet) 60%,#4a2fd0);color:#0d0524;box-shadow:0 0 22px rgba(124,92,255,.45)}
+.num.red{background:linear-gradient(135deg,#ffb3ba,var(--red) 60%,#b81026);color:#2b0006;box-shadow:0 0 22px rgba(255,77,94,.42)}
+
+.row{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:34px}
+.chip{
+  padding:9px 18px;border-radius:999px;font-size:12.5px;font-weight:600;
+  color:#cfd8f2;border:1px solid var(--line);background:rgba(255,255,255,.04);
+  letter-spacing:.02em;transition:.3s;
+}
+.chip:hover{border-color:rgba(232,185,35,.6);color:#fff;background:rgba(232,185,35,.12);transform:translateY(-3px)}
+
+.note{
+  font-size:11.8px;color:#7d8aab;font-style:italic;line-height:1.5;
+  border-left:2px solid rgba(232,185,35,.5);padding-left:12px;margin-top:14px;
+}
+
+/* dense variant for long answers (Q20) */
+.dense .card{padding:16px 18px}
+.dense .card p{font-size:12.2px;line-height:1.55}
+.dense .card h3{font-size:14.5px}
+
+/* ============================================================
+   5. TITLE SLIDE
+   ============================================================ */
+.title-slide{align-items:center;text-align:center;justify-content:center}
+.globe-wrap{width:clamp(160px,19vw,230px);margin-bottom:14px;position:relative}
+.globe-wrap::after{
+  content:"";position:absolute;inset:12%;border-radius:50%;
+  background:radial-gradient(circle,rgba(46,230,197,.28),transparent 68%);
+  filter:blur(26px);z-index:-1;animation:pulseGlow 4.5s ease-in-out infinite;
+}
+@keyframes pulseGlow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
+.globe{width:100%;height:auto;display:block;animation:floaty 7s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.orbit{transform-box:view-box;transform-origin:120px 120px}
+.o1{animation:spin 15s linear infinite}
+.o2{animation:spin 9.5s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============================================================
+   6. JOURNEY / AGENDA
+   ============================================================ */
+.journey{
+  position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:42px;
+}
+.journey::before{
+  content:"";position:absolute;top:26px;left:5%;right:5%;height:2px;
+  background:linear-gradient(90deg,rgba(46,230,197,.5),rgba(232,185,35,.5),rgba(255,77,94,.45),rgba(124,92,255,.5),rgba(59,157,255,.5));
+  transform:scaleX(0);transform-origin:left;
+}
+.slide.active .journey::before{animation:lineGrow 1.4s .3s cubic-bezier(.16,.84,.44,1) forwards}
+@keyframes lineGrow{to{transform:scaleX(1)}}
+.stop{position:relative;text-align:center}
+.stop-dot{
+  width:50px;height:50px;margin:0 auto 14px;border-radius:50%;
+  display:grid;place-items:center;font-weight:900;font-size:15px;
+  color:#06121a;background:linear-gradient(135deg,#b9fff4,var(--teal) 60%,#0e9c86);
+  box-shadow:0 0 0 6px rgba(46,230,197,.10),0 0 34px rgba(46,230,197,.45);
+  transition:.4s;
+}
+.stop:hover .stop-dot{transform:translateY(-6px) scale(1.08)}
+.stop:nth-child(2) .stop-dot{background:linear-gradient(135deg,#ffe9a8,var(--gold) 60%,#c9930d);box-shadow:0 0 0 6px rgba(232,185,35,.10),0 0 34px rgba(232,185,35,.45);color:#1a1200}
+.stop:nth-child(3) .stop-dot{background:linear-gradient(135deg,#ffc6cc,var(--red) 60%,#b81026);box-shadow:0 0 0 6px rgba(255,77,94,.10),0 0 34px rgba(255,77,94,.42);color:#2b0006}
+.stop:nth-child(4) .stop-dot{background:linear-gradient(135deg,#cfc2ff,var(--violet) 60%,#4a2fd0);box-shadow:0 0 0 6px rgba(124,92,255,.10),0 0 34px rgba(124,92,255,.45);color:#0d0524}
+.stop:nth-child(5) .stop-dot{background:linear-gradient(135deg,#bfe0ff,#3b9dff 60%,#0b5fb5);box-shadow:0 0 0 6px rgba(59,157,255,.10),0 0 34px rgba(59,157,255,.45);color:#04172e}
+.stop h3{font-size:14.5px;margin-bottom:6px}
+.stop p{font-size:12px;color:var(--muted);line-height:1.45;padding:0 4px}
+.tag{
+  display:inline-block;margin-top:12px;font-size:10.5px;font-weight:800;letter-spacing:.12em;
+  padding:4px 11px;border-radius:999px;color:var(--gold);
+  border:1px solid rgba(232,185,35,.4);background:rgba(232,185,35,.09);
+}
+
+/* ============================================================
+   7. DIVIDER SLIDES
+   ============================================================ */
+.divider{text-align:center;align-items:center}
+.ghost{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-size:clamp(240px,42vw,620px);font-weight:900;line-height:1;
+  color:rgba(255,255,255,.028);z-index:0;pointer-events:none;letter-spacing:-.06em;
+}
+.divider > *{position:relative;z-index:1}
+.part-tag{
+  font-size:12px;font-weight:900;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold);
+}
+.divider h2{font-size:clamp(34px,5.2vw,74px);margin-top:18px}
+.divider .lead{margin:0 auto;text-align:center}
+
+/* ============================================================
+   8. FISHBONE SVG
+   ============================================================ */
+.fishbone{width:100%;height:auto;overflow:visible}
+.fishbone text{font-family:inherit}
+.bone{stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:340;stroke-dashoffset:340}
+.spine{stroke-width:4;fill:none;stroke-linecap:round;stroke-dasharray:760;stroke-dashoffset:760}
+.slide.active .bone{animation:draw 1.15s cubic-bezier(.16,.84,.44,1) forwards;animation-delay:var(--bd,0s)}
+.slide.active .spine{animation:draw 1s ease forwards;animation-delay:.1s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.fadein{opacity:0}
+.slide.active .fadein{animation:rise .8s cubic-bezier(.16,.84,.44,1) forwards;animation-delay:var(--fd,0s)}
+
+/* ============================================================
+   9. COMFORT CIRCLE SVG
+   ============================================================ */
+.comfort{width:100%;max-width:400px;height:auto;display:block;margin:0 auto;overflow:visible}
+.comfort text{font-family:inherit;font-weight:800;letter-spacing:.13em;font-size:10.5px}
+.zone{transform-box:view-box;transform-origin:160px 160px;transform:scale(.55);opacity:0}
+.slide.active .zone{animation:pop .9s cubic-bezier(.2,1.3,.35,1) forwards;animation-delay:var(--d,0s)}
+@keyframes pop{to{transform:scale(1);opacity:1}}
+.mover{transform-box:view-box;transform-origin:160px 160px}
+.slide.active .mover{animation:moveOut 3.4s ease-in-out infinite alternate}
+@keyframes moveOut{from{transform:translateY(0)}to{transform:translateY(-124px)}}
+
+/* ============================================================
+   10. STRATEGY CARDS (Q12)
+   ============================================================ */
+.strategy{position:relative;padding-top:64px}
+.strategy .mono{
+  position:absolute;top:14px;right:20px;font-size:52px;font-weight:900;
+  line-height:1;color:rgba(255,255,255,.07);letter-spacing:-.05em;
+}
+.ocean-blue{border-color:rgba(59,157,255,.42)}
+.ocean-blue:hover{border-color:rgba(59,157,255,.8);box-shadow:0 22px 54px -22px rgba(59,157,255,.55)}
+.ocean-red{border-color:rgba(255,77,94,.45)}
+.ocean-red:hover{border-color:rgba(255,77,94,.85);box-shadow:0 22px 54px -22px rgba(255,77,94,.55)}
+.ocean-white{border-color:rgba(255,255,255,.34);background:linear-gradient(158deg,rgba(255,255,255,.10),rgba(255,255,255,.03))}
+.ocean-white:hover{border-color:rgba(255,255,255,.7);box-shadow:0 22px 54px -22px rgba(255,255,255,.35)}
+
+/* ============================================================
+   11. CHECK LIST
+   ============================================================ */
+.checks{list-style:none;display:grid;gap:11px}
+.checks li{
+  display:flex;gap:12px;align-items:flex-start;
+  font-size:clamp(12.8px,1.03vw,14.6px);color:var(--muted);line-height:1.55;
+}
+.checks li::before{
+  content:"";flex:0 0 auto;width:18px;height:18px;margin-top:2px;border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%, #06121a 0 3px, transparent 3.5px),
+    linear-gradient(135deg,var(--teal),#0e9c86);
+  box-shadow:0 0 14px rgba(46,230,197,.5);
+}
+
+/* ============================================================
+   12. PROGRESS + CONTROLS + OVERVIEW
+   ============================================================ */
+#progress{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:80}
+#progressFill{
+  height:100%;width:0;border-radius:0 3px 3px 0;
+  background:linear-gradient(90deg,var(--teal),var(--gold),var(--red),var(--violet),var(--blue));
+  box-shadow:0 0 20px rgba(232,185,35,.7);
+  transition:width .55s cubic-bezier(.16,.84,.44,1);
+}
+.controls{
+  position:fixed;right:26px;bottom:24px;z-index:90;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-btn{
+  width:46px;height:46px;border-radius:50%;cursor:pointer;
+  border:1px solid var(--line);background:rgba(255,255,255,.055);
+  color:#fff;display:grid;place-items:center;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:.28s;
+}
+.nav-btn:hover{background:rgba(232,185,35,.22);border-color:var(--gold);transform:scale(1.09);box-shadow:0 0 26px rgba(232,185,35,.4)}
+.nav-btn:active{transform:scale(.94)}
+.nav-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.counter{
+  position:fixed;left:30px;bottom:32px;z-index:90;
+  font-size:12.5px;font-weight:700;letter-spacing:.16em;color:#8492b3;
+}
+.counter b{color:var(--gold);font-size:16px;letter-spacing:.04em}
+.hint{
+  position:fixed;left:30px;bottom:60px;z-index:90;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.22);
+}
+
+#overview{
+  position:fixed;inset:0;z-index:120;display:none;
+  background:rgba(5,7,15,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  padding:5vh 6vw;overflow-y:auto;
+}
+#overview.on{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#overview h3{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:26px}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.ov-item{
+  text-align:left;padding:14px 16px;border-radius:14px;cursor:pointer;
+  border:1px solid var(--line);background:rgba(255,255,255,.04);color:#cfd8f2;
+  font-size:13px;font-weight:600;transition:.25s;font-family:inherit;
+  display:flex;gap:12px;align-items:center;
+}
+.ov-item:hover{background:rgba(232,185,35,.15);border-color:var(--gold);color:#fff;transform:translateY(-3px)}
+.ov-item span{font-size:10.5px;color:var(--gold);font-weight:900;letter-spacing:.06em}
+
+/* ============================================================
+   13. RESPONSIVE
+   ============================================================ */
+@media (max-width:1300px){
+  .journey{grid-template-columns:repeat(3,1fr);gap:22px}
+  .journey::before{display:none}
+}
+@media (max-width:1000px){
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .journey{grid-template-columns:1fr 1fr;gap:26px}
+  .slide{padding:64px 7vw 120px}
+}
+@media (max-width:640px){
+  .journey{grid-template-columns:1fr}
+  .counter,.hint{display:none}
+  .controls{right:16px;bottom:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div id="progress"><div id="progressFill"></div></div>
+
+<main id="deck">
+
+  <!-- ========== 01 · TITLE ========== -->
+  <section class="slide title-slide" data-title="Introduction">
+    <div class="globe-wrap reveal zoom">
+      <svg class="globe" viewBox="0 0 240 240" aria-hidden="true">
+        <defs>
+          <radialGradient id="globeFill" cx="35%" cy="28%" r="78%">
+            <stop offset="0%" stop-color="#1d2b6e"/>
+            <stop offset="58%" stop-color="#0d1330"/>
+            <stop offset="100%" stop-color="#04060e"/>
+          </radialGradient>
+          <linearGradient id="globeLine" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2ee6c5"/>
+            <stop offset="52%" stop-color="#7c5cff"/>
+            <stop offset="100%" stop-color="#e8b923"/>
+          </linearGradient>
+          <filter id="softGlow"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <circle cx="120" cy="120" r="92" fill="url(#globeFill)" stroke="url(#globeLine)" stroke-width="1.4"/>
+        <g fill="none" stroke="url(#globeLine)" stroke-opacity=".26" stroke-width="1">
+          <ellipse cx="120" cy="120" rx="92" ry="30"/>
+          <ellipse cx="120" cy="120" rx="92" ry="62"/>
+          <ellipse cx="120" cy="120" rx="30" ry="92"/>
+          <ellipse cx="120" cy="120" rx="62" ry="92"/>
+          <circle cx="120" cy="120" r="92"/>
+        </g>
+        <g class="orbit o1"><circle cx="120" cy="28" r="4.5" fill="#e8b923" filter="url(#softGlow)"/></g>
+        <g class="orbit o2"><circle cx="120" cy="26" r="3" fill="#2ee6c5"/></g>
+        <circle cx="120" cy="120" r="92" fill="none" stroke="#2ee6c5" stroke-opacity=".22" stroke-width="6" filter="url(#softGlow)"/>
+      </svg>
+    </div>
+    <p class="eyebrow reveal" style="--d:.10s">Final Exam · Analysis &amp; Solutions</p>
+    <h1 class="reveal" style="--d:.20s">International<br><span class="grad">Management</span></h1>
+    <p class="lead big reveal" style="--d:.34s">
+      A case-based journey through <strong>Flexit International</strong>, the three <strong>ocean strategies</strong>,
+      and the global brand of <strong>Mohamed Salah</strong> — analysed with the course frameworks, models and case material.
+    </p>
+    <div class="chips reveal" style="--d:.48s">
+      <span class="chip">Fishbone Root Cause</span>
+      <span class="chip">Global Company Model</span>
+      <span class="chip">Blue · Red · White Ocean</span>
+      <span class="chip">Cross-Cultural Leadership</span>
+      <span class="chip">Brand &amp; CSR</span>
+    </div>
+  </section>
+
+  <!-- ========== 02 · JOURNEY ========== -->
+  <section class="slide" data-title="The Journey">
+    <header class="hdr reveal">
+      <span class="eyebrow">Agenda</span>
+      <h2>The Journey</h2>
+      <p class="lead">Five movements — from a failed international launch to the construction of a global personal brand and its next chapter.</p>
+    </header>
+    <div class="journey">
+      <div class="stop reveal" style="--d:.15s">
+        <div class="stop-dot">01</div>
+        <h3>Flexit International</h3>
+        <p>Root-cause analysis &amp; company classification</p>
+        <span class="tag">Q8</span>
+      </div>
+      <div class="stop reveal" style="--d:.28s">
+        <div class="stop-dot">02</div>
+        <h3>Generic Strategy</h3>
+        <p>Blue, Red &amp; White Ocean approaches</p>
+        <span class="tag">Q12</span>
+      </div>
+      <div class="stop reveal" style="--d:.41s">
+        <div class="stop-dot">03</div>
+        <h3>Brand Foundations</h3>
+        <p>How a global brand is built, led &amp; adapted</p>
+        <span class="tag">Q1 – Q5</span>
+      </div>
+      <div class="stop reveal" style="--d:.54s">
+        <div class="stop-dot">04</div>
+        <h3>Strategy &amp; Culture</h3>
+        <p>Sensitivity, partners, media &amp; change</p>
+        <span class="tag">Q6 – Q13</span>
+      </div>
+      <div class="stop reveal" style="--d:.67s">
+        <div class="stop-dot">05</div>
+        <h3>Growth &amp; Impact</h3>
+        <p>Markets, soft power, talent, CSR &amp; the Trabzonspor move</p>
+        <span class="tag">Q14 – Q20</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 03 · PART 1 DIVIDER ========== -->
+  <section class="slide divider" data-title="Part 1 — Flexit International">
+    <div class="ghost">01</div>
+    <p class="part-tag reveal">Part One</p>
+    <h2 class="reveal" style="--d:.12s">Flexit<br><span class="grad">International</span></h2>
+    <p class="lead reveal" style="--d:.26s;max-width:62ch;margin-top:18px">
+      A single-question deep dive: diagnosing the case with Fishbone root-cause analysis
+      and placing the firm inside the international strategy typology.
+    </p>
+    <div class="chips reveal" style="--d:.4s"><span class="chip">Q8</span><span class="chip">Fishbone</span><span class="chip">Global Company Model</span></div>
+  </section>
+
+  <!-- ========== 04 · Q8 FISHBONE ========== -->
+  <section class="slide" data-title="Q8 · Fishbone Root Cause Analysis">
+    <header class="hdr reveal">
+      <div class="hdr-top">
+        <span class="q-badge">Q8</span>
+        <span class="eyebrow">Part 1 · Flexit International</span>
+      </div>
+      <h2>Fishbone Root Cause Analysis</h2>
+      <p class="lead">Using Fishbone root cause analysis, discuss the setting in the Flexit International case study.</p>
+    </header>
+
+    <div class="grid2" style="margin-top:26px;align-items:start">
+      <div class="reveal left" style="--d:.14s">
+        <svg class="fishbone" viewBox="0 0 900 470" aria-label="Fishbone diagram">
+          <defs>
+            <linearGradient id="spineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#7c5cff"/>
+              <stop offset="55%" stop-color="#2ee6c5"/>
+              <stop offset="100%" stop-color="#e8b923"/>
+            </linearGradient>
+          </defs>
+
+          <!-- spine -->
+          <path class="spine" d="M70 235 H 700" stroke="url(#spineGrad)"/>
+          <polygon class="fadein" style="--fd:.9s" points="700,222 728,235 700,248" fill="url(#spineGrad)"/>
+
+          <!-- effect head -->
+          <g class="fadein" style="--fd:1.05s">
+            <rect x="730" y="192" width="164" height="86" rx="16"
+                  fill="rgba(255,77,94,.13)" stroke="#ff4d5e" stroke-opacity=".62"/>
+            <text x="812" y="221" text-anchor="middle" font-size="14" font-weight="800" fill="#ffe3e6">European Market</text>
+            <text x="812" y="243" text-anchor="middle" font-size="14" font-weight="800" fill="#ffe3e6">Initiative</text>
+            <text x="812" y="265" text-anchor="middle" font-size="14" font-weight="800" fill="#ffe3e6">Collapse</text>
+          </g>
+
+          <!-- bones -->
+          <path class="bone" style="--bd:.35s" d="M170 95 L 280 235" stroke="#2ee6c5"/>
+          <path class="bone" style="--bd:.55s" d="M420 95 L 530 235" stroke="#e8b923"/>
+          <path class="bone" style="--bd:.75s" d="M170 375 L 280 235" stroke="#7c5cff"/>
+          <path class="bone" style="--bd:.95s" d="M420 375 L 530 235" stroke="#ff4d5e"/>
+
+          <!-- labels -->
+          <g class="fadein" style="--fd:.5s">
+            <circle cx="170" cy="95" r="7" fill="#2ee6c5"/>
+            <text x="170" y="72" text-anchor="middle" font-size="19" font-weight="800" fill="#eef2ff">Production</text>
+          </g>
+          <g class="fadein" style="--fd:.7s">
+            <circle cx="420" cy="95" r="7" fill="#e8b923"/>
+            <text x="420" y="72" text-anchor="middle" font-size="19" font-weight="800" fill="#eef2ff">Strategy</text>
+          </g>
+          <g class="fadein" style="--fd:.9s">
+            <circle cx="170" cy="375" r="7" fill="#7c5cff"/>
+            <text x="170" y="408" text-anchor="middle" font-size="19" font-weight="800" fill="#eef2ff">Logistics</text>
+          </g>
+          <g class="fadein" style="--fd:1.1s">
+            <circle cx="420" cy="375" r="7" fill="#ff4d5e"/>
+            <text x="420" y="408" text-anchor="middle" font-size="19" font-weight="800" fill="#eef2ff">Marketing</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="grid4">
+        <div class="card teal reveal right" style="--d:.35s">
+          <h3 style="color:#7ff5e4;margin-bottom:8px">Production</h3>
+          <p>Rushed operations led to suspended quality testing and unverified defective parts.</p>
+        </div>
+        <div class="card gold reveal right" style="--d:.5s">
+          <h3 style="color:#ffd76e;margin-bottom:8px">Strategy</h3>
+          <p>Total reliance on a single distributor (Physique, Ltd.) and zero prior global experience.</p>
+        </div>
+        <div class="card violet reveal right" style="--d:.65s">
+          <h3 style="color:#b9a6ff;margin-bottom:8px">Logistics</h3>
+          <p>The company kept zero local buffer stock, leading to a catastrophic 3-week delay for replacement parts.</p>
+        </div>
+        <div class="card red reveal right" style="--d:.8s">
+          <h3 style="color:#ff9aa4;margin-bottom:8px">Marketing</h3>
+          <p>Expanding aggressively based on opinion-based forecasts rather than phased test markets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 05 · Q8 CLASSIFICATION ========== -->
+  <section class="slide" data-title="Q8 · Company Classification">
+    <header class="hdr reveal">
+      <div class="hdr-top">
+        <span class="q-badge">Q8</span>
+        <span class="eyebrow">Part 1 · Flexit International</span>
+      </div>
+      <h2>Which type of international company is Flexit?</h2>
+      <p class="lead">And why does the case evidence support that classification?</p>
+    </header>
+
+    <div class="grid2" style="margin-top:30px;align-items:start">
+      <div class="card gold reveal left" style="--d:.14s;padding:30px 28px">
+        <span class="eyebrow">Classification</span>
+        <h3 style="font-size:clamp(22px,2.3vw,32px);line-height:1.15;margin:14px 0 12px;letter-spacing:-.02em">
+          A strict<br><span class="grad">Global Company Model</span>
+        </h3>
+        <p>Flexit is operating on a strict Global Company model.</p>
+        <p class="note" style="margin-top:18px">
+          Decisions are highly centralized at the home-country headquarters, focusing strictly on exporting home-country products.
+        </p>
+      </div>
+
+      <div class="reveal right" style="--d:.3s">
+        <h3 style="margin-bottom:16px;color:var(--gold2);font-size:13px;letter-spacing:.2em;text-transform:uppercase">Validation from the case</h3>
+        <ul class="checks">
+          <li><span><strong>Highly centralized decisions</strong> at the home-country headquarters.</span></li>
+          <li><span><strong>Strict focus on exporting</strong> home-country products.</span></li>
+          <li><span><strong>100% centralized US manufacturing</strong> — all production decisions stay at home.</span></li>
+          <li><span><strong>"Zero overlap"</strong> — one product per plant in Iowa.</span></li>
+          <li><span><strong>Exact US models shipped to Europe</strong> — zero product localization or adaptation.</span></li>
+        </ul>
+        <div class="card teal" style="margin-top:20px">
+          <p><strong>Verdict:</strong> Flexit fits the Global Company profile exactly — centralized control,
+          standardised home-country output, and no local responsiveness.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 06 · PART 2 DIVIDER — GENERIC IM ========== -->
+  <section class="slide divider" data-title="Part 2 — Generic International Management">
+    <div class="ghost">02</div>
+    <p class="part-tag reveal">Part Two</p>
+    <h2 class="reveal" style="--d:.12s">Generic<br><span class="grad">International Management</span></h2>
+    <p class="lead reveal" style="--d:.26s;max-width:62ch;margin-top:18px">
+      Q12 shifts from structure to competitive posture — three ocean strategies that frame how organisations choose to compete and create value.
+    </p>
+    <div class="chips reveal" style="--d:.4s"><span class="chip">Q12</span><span class="chip">Blue Ocean</span><span class="chip">Bloody Red Ocean</span><span class="chip">White Ocean</span></div>
+  </section>
+
+  <!-- ========== 07 · Q12 OCEAN STRATEGIES ========== -->
+  <section class="slide" data-title="Q12 · Three Ocean Strategies">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q12</span><span class="eyebrow">Part 2 · Generic International Management</span></div>
+      <h2>Three Strategies for International Organisations</h2>
+      <p class="lead">Based on the course's core structural frameworks, organisations can adopt distinct approaches depending on their goals regarding competition and societal impact.</p>
+    </header>
+
+    <div class="grid3" style="margin-top:30px">
+      <div class="card strategy reveal zoom ocean-blue" style="--d:.16s">
+        <div class="mono">B</div>
+        <h3 style="color:#8fd0ff;margin-bottom:10px">Blue Ocean Strategy</h3>
+        <p>Creating an entirely new, uncontested market space where there is no existing competition — a <em>"monopoly strategy"</em>. Instead of fighting over existing customers, companies create new demand and make the competition irrelevant.</p>
+      </div>
+      <div class="card strategy reveal zoom ocean-red" style="--d:.32s">
+        <div class="mono">R</div>
+        <h3 style="color:#ff9aa4;margin-bottom:10px">Bloody Red Ocean Strategy</h3>
+        <p>A highly aggressive approach where companies compete in existing, crowded markets. Cut-throat competition — likened to sharks fighting, turning the ocean red — where the main goal is simply to beat rivals and exploit existing demand.</p>
+      </div>
+      <div class="card strategy reveal zoom ocean-white" style="--d:.48s">
+        <div class="mono">W</div>
+        <h3 style="color:#ffffff;margin-bottom:10px">White Ocean Strategy</h3>
+        <p>Prioritises corporate social responsibility (CSR) and community welfare over pure profit. Focuses on social impact and gaining long-term trust by investing in the community rather than trying to win market share through aggressive tactics.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 08 · PART 3 DIVIDER — SALAH ========== -->
+  <section class="slide divider" data-title="Part 3 — Mohamed Salah">
+    <div class="ghost">03</div>
+    <p class="part-tag reveal">Part Three</p>
+    <h2 class="reveal" style="--d:.12s">Mohamed Salah<br><span class="grad">Global Brand Management</span></h2>
+    <p class="lead reveal" style="--d:.26s;max-width:64ch;margin-top:18px">
+      Answers rely on the provided text regarding Salah's partnership with Magic Circle, and apply
+      course frameworks to address the theoretical core of the remaining questions.
+    </p>
+    <div class="chips reveal" style="--d:.4s"><span class="chip">Q1 – Q20</span><span class="chip">Magic Circle</span><span class="chip">Hofstede</span><span class="chip">Trompenaars</span><span class="chip">Kotter</span><span class="chip">Lewin</span></div>
+  </section>
+
+  <!-- ========== 09 · Q1 ========== -->
+  <section class="slide" data-title="Q1 · Building a Global Brand">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q1</span><span class="eyebrow">Part 3 · Brand Foundations</span></div>
+      <h2>Building a Global Brand</h2>
+      <p class="lead">How has Mohamed Salah managed to build a global brand? What strategies has he employed to ensure his brand's international appeal?</p>
+    </header>
+
+    <div class="card gold reveal" style="--d:.14s;margin-top:18px;padding:16px 22px">
+      <p>Salah's brand is built on <strong>performance first</strong>, then a carefully managed off-field strategy.
+      The HBS case shows a <strong>deliberate system</strong> run by his advisor Ramy Abbas (Magic Circle) — not a lucky accident.</p>
+    </div>
+
+    <div class="grid3" style="margin-top:16px">
+      <div class="card reveal zoom" style="--d:.24s">
+        <div class="row"><span class="num">1</span><h3>Elite Performance</h3></div>
+        <p>32 Premier League goals in his first season (a 38-game record), three Golden Boots, CL 2019 &amp; PL 2020 with Liverpool. Global brands need a global stage — the PL is the world's most-watched league (€6.4B revenue; €3.5B media rights).</p>
+      </div>
+      <div class="card reveal zoom" style="--d:.34s">
+        <div class="row"><span class="num">2</span><h3>Selective Premium Portfolio</h3></div>
+        <p>Abbas rejected early offers of €100k–150k, kept the portfolio small and avoided big gaps between partners. Deals moved to the €4–7M range. Partners span global (Adidas, PepsiCo), luxury (Gucci) and local Egyptian brands (Bank of Alexandria, Mountain View).</p>
+      </div>
+      <div class="card reveal zoom" style="--d:.44s">
+        <div class="row"><span class="num">3</span><h3>Beyond Football</h3></div>
+        <p>The Gucci campaign ran worldwide including the USA, and a GQ feature made him a <em>'fashion icon'</em> — Abbas valued that more than the money.</p>
+      </div>
+      <div class="card reveal zoom" style="--d:.54s">
+        <div class="row"><span class="num">4</span><h3>Creative Control &amp; Quality</h3></div>
+        <p>In multi-celebrity ads he must open and close the commercial; Abbas attends planning meetings to protect how Salah looks on screen.</p>
+      </div>
+      <div class="card reveal zoom" style="--d:.64s">
+        <div class="row"><span class="num">5</span><h3>Professional Structure</h3></div>
+        <p>Separate UK and non-UK image-rights companies, one dedicated advisor (no conflict with other clients), and about a dozen outside legal and tax advisors.</p>
+      </div>
+      <div class="card reveal zoom" style="--d:.74s">
+        <div class="row"><span class="num">6</span><h3>Authentic Identity</h3></div>
+        <p>A humble village story (Nagrig), visible Muslim faith (sujood celebration), family focus, and a purpose to show others <em>'you can make something of your life'</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 10 · Q2 ========== -->
+  <section class="slide" data-title="Q2 · Cross-Cultural Leadership">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q2</span><span class="eyebrow">Part 3 · Culture</span></div>
+      <h2>Cross-Cultural Leadership</h2>
+      <p class="lead">In what ways has Salah demonstrated effective cross-cultural leadership? Give three examples — and how does his Egyptian background shape relationships with teammates from diverse cultures?</p>
+    </header>
+
+    <div class="grid3" style="margin-top:28px">
+      <div class="card reveal" style="--d:.16s">
+        <div class="row"><span class="num">1</span><h3>Separating Emotion from Business</h3></div>
+        <p>Salah avoids using family members as agents because <em>"there are too many emotions"</em> — showing a highly individualistic, professional approach necessary in Western business contexts.</p>
+      </div>
+      <div class="card reveal" style="--d:.30s">
+        <div class="row"><span class="num">2</span><h3>Role Delegation <span style="font-weight:600;color:var(--muted);font-size:12px">(Low Power Distance)</span></h3></div>
+        <p>He allows his agent, Ramy Abbas, to handle business contracts without interference — while Abbas does not interfere in football decisions.</p>
+      </div>
+      <div class="card reveal" style="--d:.44s">
+        <div class="row"><span class="num">3</span><h3>Adaptability</h3></div>
+        <p>By understanding where the <em>"line"</em> is in negotiations, he navigates the high-stakes European football market effectively.</p>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:18px">
+      <div class="card teal reveal" style="--d:.58s">
+        <h3 style="margin-bottom:8px;color:#7ff5e4">The Egyptian background</h3>
+        <p>His background likely provides strong <strong>relationship-building skills</strong> (a trait of particularist cultures in Trompenaars' model), helping him build trust with diverse teammates.</p>
+      </div>
+      <div class="card violet reveal" style="--d:.70s">
+        <h3 style="margin-bottom:8px;color:#b9a6ff">The framework</h3>
+        <p>Based on Hofstede and Trompenaars, effective cross-cultural leadership requires <strong>avoiding cultural bias and stereotyping</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 11 · Q3 ========== -->
+  <section class="slide" data-title="Q3 · Liverpool FC & Global Lessons">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q3</span><span class="eyebrow">Part 3 · Brand Equity</span></div>
+      <h2>Liverpool FC &amp; Three Global Lessons</h2>
+      <p class="lead">How has Salah's personal brand contributed to the global image of his club — and what can international companies learn from his ability to transcend cultural and geographic boundaries?</p>
+    </header>
+
+    <div class="grid4" style="margin-top:18px">
+      <div class="card gold reveal" style="--d:.14s">
+        <h3 style="margin-bottom:6px;color:#ffd76e">On-field value</h3>
+        <p>156 goals in his first five seasons; won CL 2019, PL 2020 and Club World Cup 2019. Liverpool reached the 2022 CL final (UEFA paid €120M).</p>
+      </div>
+      <div class="card gold reveal" style="--d:.24s">
+        <h3 style="margin-bottom:6px;color:#ffd76e">Commercial growth</h3>
+        <p>Liverpool revenue rose <strong>€425M (2016-17) → €702M (2021-22)</strong>; commercial <strong>€162M → €275M</strong>. Salah was the most valuable player (€90M market value) and the face of that era.</p>
+      </div>
+      <div class="card gold reveal" style="--d:.34s">
+        <h3 style="margin-bottom:6px;color:#ffd76e">New fan markets</h3>
+        <p>Opened the Arab world and North Africa to Liverpool — a market of hundreds of millions where he is the biggest sports star.</p>
+      </div>
+      <div class="card gold reveal" style="--d:.44s">
+        <h3 style="margin-bottom:6px;color:#ffd76e">Social image</h3>
+        <p>The <em>'Salah effect'</em> study gave Liverpool a positive social-inclusion story (<em>'If he scores another few, then I'll be Muslim too'</em> chant).</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="--d:.54s;margin:22px 0 14px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Three lessons for international companies</h3>
+
+    <div class="grid3">
+      <div class="card teal reveal" style="--d:.62s">
+        <div class="row"><span class="num teal">1</span><h3>Authenticity travels</h3></div>
+        <p>Authenticity travels better than adaptation alone. Salah never hid his culture or faith; he made it familiar. Keep a clear core identity while respecting local norms (transnational: <em>'think globally, act locally'</em>).</p>
+      </div>
+      <div class="card teal reveal" style="--d:.72s">
+        <div class="row"><span class="num teal">2</span><h3>Diverse talent opens markets</h3></div>
+        <p>One Egyptian player opened a whole region for a British club. Hiring and promoting leaders from target markets builds trust and access.</p>
+      </div>
+      <div class="card teal reveal" style="--d:.82s">
+        <div class="row"><span class="num teal">3</span><h3>Excellence is the passport</h3></div>
+        <p>Global acceptance followed consistent results. Brands cross borders only when the product is world-class — marketing cannot replace performance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 12 · Q4 ========== -->
+  <section class="slide" data-title="Q4 · Three Elements of the Brand">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q4</span><span class="eyebrow">Part 3 · Brand Foundations</span></div>
+      <h2>Three Elements That Resonate Globally</h2>
+      <p class="lead">What are the key three elements of Salah's brand that resonate with a global international audience?</p>
+    </header>
+
+    <div class="grid3" style="margin-top:34px">
+      <div class="card teal reveal zoom" style="--d:.16s;padding:28px 24px">
+        <div class="num teal" style="margin-bottom:16px">1</div>
+        <h3 style="margin-bottom:10px">Professional Integrity</h3>
+        <p>Evidenced by his strict division of labour; he respects professional boundaries — he handles the sport, his team handles the business.</p>
+      </div>
+      <div class="card gold reveal zoom" style="--d:.32s;padding:28px 24px">
+        <div class="num" style="margin-bottom:16px">2</div>
+        <h3 style="margin-bottom:10px">Quality Control</h3>
+        <p>His team travels to shoots and manages the day-to-day to ensure campaigns meet high creative standards.</p>
+      </div>
+      <div class="card violet reveal zoom" style="--d:.48s;padding:28px 24px">
+        <div class="num violet" style="margin-bottom:16px">3</div>
+        <h3 style="margin-bottom:10px">Authenticity <span style="font-weight:600;font-size:12px;color:var(--muted)">(Walking the Talk)</span></h3>
+        <p>Similar to Kotter's change management principles, his brand remains consistent because his off-field business behaviour aligns with his on-field discipline.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 13 · Q5 ========== -->
+  <section class="slide" data-title="Q5 · Market Penetration">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q5</span><span class="eyebrow">Part 3 · Market Entry</span></div>
+      <h2>Market Penetration &amp; Success Factors</h2>
+      <p class="lead">In which TWO regions has Mohamed Salah been most successful in penetrating markets? What three factors contributed to his success in these areas?</p>
+    </header>
+
+    <div class="grid2 reveal" style="--d:.14s;margin-top:22px">
+      <div class="card teal">
+        <span class="eyebrow" style="color:#7ff5e4">Region 1</span>
+        <h3 style="margin:10px 0 8px">United Kingdom &amp; Europe</h3>
+        <p>The commercial markets of the UK and Europe — where the Premier League stage and Liverpool's global brand amplified his reach.</p>
+      </div>
+      <div class="card gold">
+        <span class="eyebrow">Region 2</span>
+        <h3 style="margin:10px 0 8px">MENA / Arab World</h3>
+        <p>The Middle East and North Africa — where his cultural identity, Arabic-language campaigns and regional brand partnerships built deep local resonance.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="--d:.28s;margin:24px 0 14px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Three factors behind the success</h3>
+
+    <div class="grid3">
+      <div class="card reveal" style="--d:.38s">
+        <div class="row"><span class="num">1</span><h3>Global Competitive Advantage</h3></div>
+        <p>In IB terms, his elite athletic performance functions as a <strong>non-location-bound core competency</strong> — world-class talent that transfers seamlessly across borders, creating sustainable competitive advantage in highly competitive foreign markets.</p>
+      </div>
+      <div class="card reveal" style="--d:.50s">
+        <div class="row"><span class="num">2</span><h3>Cultural Intelligence &amp; Glocalization</h3></div>
+        <p>A prime example of <strong>glocalization</strong> — a powerful global brand with deep local responsiveness. High CQ lets him bridge Western corporate interests with Middle Eastern cultural values, helping MNEs navigate cultural distance authentically.</p>
+      </div>
+      <div class="card reveal" style="--d:.62s">
+        <div class="row"><span class="num">3</span><h3>Institutional Image &amp; Trust</h3></div>
+        <p>His clean, philanthropic, <em>"brand-safe"</em> persona acts as a strategic asset that minimizes reputational risk for global brands — facilitating smooth market entry across varying institutional and regulatory environments.</p>
+      </div>
+    </div>
+  </section>
+    <!-- ========== 14 · Q6 ========== -->
+  <section class="slide" data-title="Q6 · Cultural Sensitivity">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q6</span><span class="eyebrow">Part 3 · Culture</span></div>
+      <h2>Cultural Sensitivity in Western Media</h2>
+      <p class="lead">What challenges has Salah faced in terms of cultural sensitivity — and how can international companies ensure their leaders are culturally sensitive in global markets?</p>
+    </header>
+
+    <div class="grid2" style="margin-top:22px;align-items:start">
+      <div class="card red reveal left" style="--d:.14s">
+        <span class="eyebrow" style="color:#ff9aa4">Challenges faced</span>
+        <h3 style="margin:12px 0 14px">Four real pressure points</h3>
+        <ul class="checks" style="gap:14px">
+          <li><span><strong>'Greedy' label (2021–22)</strong> — asking for a pay rise was framed as greed on social media and in parts of the press; Abbas noted <em>'asking for money... is a sin'</em> in public opinion.</span></li>
+          <li><span><strong>Faith under the microscope</strong> — questions on Ramadan fasting and his visible prayer celebration, in a country where Islamophobia had been rising since 2001.</span></li>
+          <li><span><strong>Politics — a dual-audience trap</strong> — in Oct 2023 he was criticised in Egypt and the Arab world for ~11 days of silence on Gaza; when he said <em>'all lives are sacred'</em> some called it too neutral, while in Western media any statement risked being read as political.</span></li>
+          <li><span><strong>Directness vs. club culture (Dec 2025)</strong> — his public <em>'thrown under the bus'</em> interview after being benched by Arne Slot was framed in British media as disloyal and ego-driven, while many Arab fans saw it as defending his dignity.</span></li>
+        </ul>
+      </div>
+
+      <div class="card teal reveal right" style="--d:.3s">
+        <span class="eyebrow" style="color:#7ff5e4">The remedy</span>
+        <h3 style="margin:12px 0 14px">How companies build sensitivity</h3>
+        <ul class="checks" style="gap:14px">
+          <li><span><strong>Pre-assignment cultural training</strong> using Hofstede (power distance, individualism, masculinity, uncertainty avoidance) and Trompenaars (loyalty vs. rules) — <em>'study customs, norms, values and practices'</em>.</span></li>
+          <li><span><strong>Local advisors and media protocols</strong> — like Abbas's network of local lawyers and advisors; prepare statements for sensitive topics in each market <em>before</em> a crisis happens.</span></li>
+          <li><span><strong>Diverse leadership teams and feedback</strong> — avoid the professor's 'major mistakes': cultural bias, blindness to our own norms, seeing other cultures as 'deviations', and stereotyping.</span></li>
+          <li><span><strong>Clear values and crisis-communication rules</strong> — decide in advance which causes the brand speaks on, with consistent words and actions (<em>'walk the talk'</em> — Kotter).</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 15 · Q7 ========== -->
+  <section class="slide" data-title="Q7 · Cultural Adaptation">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q7</span><span class="eyebrow">Part 3 · Adaptation</span></div>
+      <h2>Adapting to Cultural Contexts</h2>
+      <p class="lead">How has Salah's brand adapted to different cultural contexts and consumer preferences? Give three examples.</p>
+    </header>
+
+    <div class="grid2" style="margin-top:26px">
+      <div class="card violet reveal zoom" style="--d:.14s">
+        <span class="eyebrow" style="color:#b9a6ff">Western luxury &amp; lifestyle</span>
+        <h3 style="margin:10px 0 8px">USA / Europe</h3>
+        <p>Gucci campaign shown worldwide including the US, plus a GQ fashion feature — repositioning him from <em>'footballer'</em> to <em>'fashion icon'</em> for audiences where football is less central.</p>
+      </div>
+      <div class="card gold reveal zoom" style="--d:.28s">
+        <span class="eyebrow">Arab family &amp; humour</span>
+        <h3 style="margin:10px 0 8px">Egypt / MENA</h3>
+        <p>Arabic-language campaigns for Pepsi MENA and Vodafone Egypt. Vodafone reportedly gave subscribers <strong>11 free minutes</strong> (his shirt number) for every goal he scored — linking the brand to national pride.</p>
+      </div>
+      <div class="card teal reveal zoom" style="--d:.42s">
+        <span class="eyebrow" style="color:#7ff5e4">Local Egyptian aspiration</span>
+        <h3 style="margin:10px 0 8px">Domestic</h3>
+        <p>Partnerships with <strong>Bank of Alexandria</strong> (finance) and <strong>Mountain View</strong> (real estate) speak to Egyptian family goals — saving, owning a home — not global luxury.</p>
+      </div>
+      <div class="card red reveal zoom" style="--d:.56s">
+        <span class="eyebrow" style="color:#ff9aa4">New market entry</span>
+        <h3 style="margin:10px 0 8px">Turkey · 2026</h3>
+        <p>His Trabzonspor unveiling video and arrival in the club shirt drew hundreds of fans at Istanbul airport, and the club's Instagram announcement passed <strong>150 million views</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 16 · Q9 ========== -->
+  <section class="slide" data-title="Q9 · Choosing Corporate Partners">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q9</span><span class="eyebrow">Part 3 · Partnerships</span></div>
+      <h2>Choosing Corporate Partners</h2>
+      <p class="lead">How does Salah choose his corporate partners? List three conditions — and the three impacts these partnerships have on his international brand.</p>
+    </header>
+
+    <div class="grid2" style="margin-top:26px;align-items:start">
+      <div>
+        <h3 class="reveal" style="--d:.12s;margin-bottom:16px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Three conditions</h3>
+        <div style="display:grid;gap:14px">
+          <div class="card teal reveal left" style="--d:.20s">
+            <div class="row"><span class="num teal">1</span><h3>Premium value &amp; consistency</h3></div>
+            <p>No small deals (rejected €100k–150k offers); deals now in the <strong>€4–7M range</strong>, with no big gaps between what partners pay.</p>
+          </div>
+          <div class="card teal reveal left" style="--d:.32s">
+            <div class="row"><span class="num teal">2</span><h3>Limited portfolio, creative control</h3></div>
+            <p>A small number of partners; Salah must be the <strong>lead character</strong> (opening and closing the ad); Abbas joins creative planning.</p>
+          </div>
+          <div class="card teal reveal left" style="--d:.44s">
+            <div class="row"><span class="num teal">3</span><h3>Brand fit &amp; no conflicts</h3></div>
+            <p>Global reach or strong local relevance (Adidas, Gucci, Pepsi, Bank of Alexandria), and no clash with club sponsors — e.g. Liverpool's shirt sponsor Standard Chartered vs. his own bank partner.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="reveal" style="--d:.30s;margin-bottom:16px;color:#ff9aa4;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Three impacts on the brand</h3>
+        <div style="display:grid;gap:14px">
+          <div class="card red reveal right" style="--d:.38s">
+            <div class="row"><span class="num red">4</span><h3>Higher brand value &amp; income</h3></div>
+            <p><strong>€17M a year</strong> off the field in 2022 (Exhibit 10), fifth-highest-paid footballer in the world.</p>
+          </div>
+          <div class="card red reveal right" style="--d:.50s">
+            <div class="row"><span class="num red">5</span><h3>Global repositioning</h3></div>
+            <p>Gucci/GQ moved him from <strong>sports star to lifestyle and fashion icon</strong>, reaching the US market.</p>
+          </div>
+          <div class="card red reveal right" style="--d:.62s">
+            <div class="row"><span class="num red">6</span><h3>Regional dominance</h3></div>
+            <p>MENA partners (Pepsi, Vodafone, Uber, DHL) made him the face of the region's biggest brands — strengthening his <em>'Arab icon'</em> status.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 17 · Q10 & Q15 ========== -->
+  <section class="slide" data-title="Q10 & Q15 · Athletes as Global Ambassadors">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q10 &amp; Q15</span><span class="eyebrow">Part 3 · Sponsorship</span></div>
+      <h2>Athletes as Global Brand Ambassadors</h2>
+      <p class="lead">How does Salah's sponsorship portfolio reflect the growing trend of athletes as global ambassadors — and what three factors should international managers consider when negotiating deals with high-profile athletes?</p>
+    </header>
+
+    <h3 class="reveal" style="--d:.12s;margin:18px 0 12px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">How the portfolio reflects the trend</h3>
+    <div class="grid3">
+      <div class="card violet reveal zoom" style="--d:.20s">
+        <h3 style="margin-bottom:8px;color:#b9a6ff">Sports ↔ Luxury ↔ Lifestyle</h3>
+        <p>Adidas as the core athletic partnership, expanded into Gucci and GQ. Corporations use athletes to blend high performance with high fashion, accessing premium, design-conscious consumers.</p>
+      </div>
+      <div class="card violet reveal zoom" style="--d:.32s">
+        <h3 style="margin-bottom:8px;color:#b9a6ff">Multi-Market Glocalization</h3>
+        <p>PepsiCo uses him in high-production UEFA Champions League spots <em>and</em> deeply emotional MENA campaigns — a single versatile athlete acting as a cultural chameleon, mitigating the liability of foreignness.</p>
+      </div>
+      <div class="card violet reveal zoom" style="--d:.44s">
+        <h3 style="margin-bottom:8px;color:#b9a6ff">Purpose-Driven Alignment</h3>
+        <p>Vodafone (digital education, youth empowerment) and UNHCR (instant-network schools). Athletes are now expected to be moral pillars — brands align to inherit authentic social capital.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="--d:.56s;margin:24px 0 12px;color:#ff9aa4;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Three factors for international managers</h3>
+    <div class="grid3">
+      <div class="card red reveal" style="--d:.64s">
+        <div class="row"><span class="num red">1</span><h3>Agent Dynamics</h3></div>
+        <p>Understand whether the agent is acting in the player's best interest or following their own commission incentives.</p>
+      </div>
+      <div class="card red reveal" style="--d:.74s">
+        <div class="row"><span class="num red">2</span><h3>Creative Control</h3></div>
+        <p>Be prepared for the athlete's team to demand input on the creative process and marketing materials.</p>
+      </div>
+      <div class="card red reveal" style="--d:.84s">
+        <div class="row"><span class="num red">3</span><h3>Contract Structure</h3></div>
+        <p>Clearly differentiate between fixed compensation and image-rights percentages.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 18 · Q11 ========== -->
+  <section class="slide" data-title="Q11 · Digital & Social Media">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q11</span><span class="eyebrow">Part 3 · Digital</span></div>
+      <h2>Digital &amp; Social Media Presence</h2>
+      <p class="lead">How has Mohamed Salah utilised digital and social media to enhance his global brand presence? Discuss three.</p>
+    </header>
+
+    <div class="grid3" style="margin-top:32px">
+      <div class="card violet reveal zoom" style="--d:.16s;padding:28px 24px">
+        <div class="num violet" style="margin-bottom:16px">1</div>
+        <h3 style="margin-bottom:10px">Reach with Scarcity</h3>
+        <p><strong>~68M Instagram followers</strong> (2026) — the most-followed Arab and African footballer — yet only <strong>~1,170 posts</strong> in total. Scarcity keeps each post high-impact and premium, matching his <em>'few, big partners'</em> strategy.</p>
+      </div>
+      <div class="card gold reveal zoom" style="--d:.32s;padding:28px 24px">
+        <div class="num" style="margin-bottom:16px">2</div>
+        <h3 style="margin-bottom:10px">Voice on Social Issues</h3>
+        <p>His <strong>Oct 2023 Gaza video</strong> gained <strong>30M+ Instagram views</strong> within hours. It shows the power of a direct channel — and the risk: timing and wording drew criticism, proving digital reach demands cultural sensitivity.</p>
+      </div>
+      <div class="card teal reveal zoom" style="--d:.48s;padding:28px 24px">
+        <div class="num teal" style="margin-bottom:16px">3</div>
+        <h3 style="margin-bottom:10px">Amplifying Clubs &amp; Partners</h3>
+        <p>Brand campaigns (Adidas, Pepsi, Vodafone) are shared on his channels; when he joined Trabzonspor in Aug 2026, the club gained <strong>~150M views</strong> and a million new Instagram followers — his audience became a commercial asset.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 19 · Q13 ========== -->
+  <section class="slide" data-title="Q13 · The Comfort Circle">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q13</span><span class="eyebrow">Part 3 · Change Management</span></div>
+      <h2>The Comfort Circle</h2>
+      <p class="lead">Using the Comfort Circle Diagram, compare the move of Mo Salah to Trabzonspor with the move to Fiorentina.</p>
+    </header>
+
+    <div class="grid2" style="margin-top:16px;align-items:center">
+      <div class="reveal left" style="--d:.14s">
+        <svg class="comfort" viewBox="0 0 320 320" aria-label="Comfort circle diagram">
+          <circle class="zone" style="--d:.15s" cx="160" cy="160" r="150"
+                  fill="rgba(255,77,94,.06)" stroke="rgba(255,77,94,.45)" stroke-dasharray="6 9"/>
+          <circle class="zone" style="--d:.35s" cx="160" cy="160" r="110"
+                  fill="rgba(232,185,35,.07)" stroke="rgba(232,185,35,.5)"/>
+          <circle class="zone" style="--d:.55s" cx="160" cy="160" r="68"
+                  fill="rgba(46,230,197,.10)" stroke="rgba(46,230,197,.65)"/>
+
+          <text x="160" y="34" text-anchor="middle" fill="#ff9aa4">GROWTH ZONE</text>
+          <text x="160" y="88" text-anchor="middle" fill="#ffd76e">LEARNING / FEAR</text>
+          <text x="160" y="156" text-anchor="middle" fill="#7ff5e4">COMFORT</text>
+          <text x="160" y="174" text-anchor="middle" fill="#7ff5e4">ZONE</text>
+
+          <circle class="mover" cx="160" cy="160" r="6" fill="#e8b923"/>
+        </svg>
+      </div>
+
+      <div>
+        <div class="card violet reveal right" style="--d:.28s">
+          <span class="eyebrow" style="color:#b9a6ff">Fiorentina 2015 · age 22</span>
+          <h3 style="margin:10px 0 8px">A career-rescue push</h3>
+          <p><strong>Comfort:</strong> Chelsea bench (only 13 apps).</p>
+          <p><strong>Fear:</strong> New country, new league.</p>
+          <p><strong>Learning:</strong> Italian language, adapting to Serie A tactics.</p>
+          <p><strong>Growth:</strong> 7B assists/goals; hero on a Champions League side.</p>
+          <p class="note" style="margin-top:10px"><strong>Push move</strong> — forced out of a stalled comfort zone (career rescue).</p>
+        </div>
+        <div class="card red reveal right" style="--d:.42s;margin-top:14px">
+          <span class="eyebrow" style="color:#ff9aa4">Trabzonspor 2026 · age 34</span>
+          <h3 style="margin:10px 0 8px">A strategic late-career pull + push</h3>
+          <p><strong>Comfort:</strong> Liverpool — 9 years, family settled.</p>
+          <p><strong>Fear:</strong> Lost future, bench, unfamiliar language, fan pressure.</p>
+          <p><strong>Learning:</strong> New league, coach, teammates.</p>
+          <p><strong>Growth:</strong> Club icon, Europa League, brand reach (Turkish TV + MENA).</p>
+          <p class="note" style="margin-top:10px"><strong>Pull + push</strong> — leaves a deep comfort zone at career peak to take the next stage.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card gold reveal" style="--d:.56s;margin-top:16px;padding:18px 22px">
+      <p><strong>Conclusion —</strong> Fiorentina was a <em>career-rescue</em> move out of a failing comfort zone; Trabzonspor is a <em>strategic late-career</em> move out of a very successful one. The first risked his future; the second risks his legacy and brand visibility — but offers leadership and new-market growth. Both follow O'Toole (homeostasis) and Lewin (unfreeze–change–refreeze): growth only happens after leaving the comfort zone and passing through fear and learning.</p>
+    </div>
+  </section>
+
+  <!-- ========== 20 · Q14 ========== -->
+  <section class="slide" data-title="Q14 · Future Growth">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q14</span><span class="eyebrow">Part 3 · Growth</span></div>
+      <h2>Future Growth Opportunities</h2>
+      <p class="lead">What are the potential opportunities for future growth for Mohamed Salah's brand? List three. What five markets or sectors could he expand into? Would you include Saudi, USA and/or the European market? Why / why not?</p>
+    </header>
+
+    <div class="grid2" style="margin-top:22px;align-items:start">
+      <div>
+        <h3 class="reveal" style="--d:.12s;margin-bottom:14px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Three growth opportunities</h3>
+        <div style="display:grid;gap:12px">
+          <div class="card reveal left" style="--d:.20s"><div class="row"><span class="num">1</span><h3>Expanding image-rights licensing</h3></div></div>
+          <div class="card reveal left" style="--d:.30s"><div class="row"><span class="num">2</span><h3>Equity partnerships in global brands</h3></div></div>
+          <div class="card reveal left" style="--d:.40s"><div class="row"><span class="num">3</span><h3>Creating proprietary branded products</h3></div></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="reveal" style="--d:.26s;margin-bottom:14px;color:#7ff5e4;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Five markets &amp; sectors</h3>
+        <div style="display:grid;gap:12px">
+          <div class="card teal reveal right" style="--d:.34s"><div class="row"><span class="num teal">1</span><h3>Sports apparel</h3></div></div>
+          <div class="card teal reveal right" style="--d:.44s"><div class="row"><span class="num teal">2</span><h3>Digital health / fitness technology</h3></div></div>
+          <div class="card teal reveal right" style="--d:.54s"><div class="row"><span class="num teal">3</span><h3>The Saudi market</h3></div></div>
+          <div class="card teal reveal right" style="--d:.64s"><div class="row"><span class="num teal">4</span><h3>The US market</h3></div></div>
+          <div class="card teal reveal right" style="--d:.74s"><div class="row"><span class="num teal">5</span><h3>The Asian market <span style="font-weight:600;font-size:12px;color:var(--muted)">(e.g. Japan, as noted by Abbas)</span></h3></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card gold reveal" style="--d:.86s;margin-top:18px">
+      <p><strong>Analysis —</strong> Both the <strong>USA</strong> and <strong>Saudi</strong> markets should be included. Saudi Arabia is an emerging sports powerhouse that shares cultural and linguistic ties with Salah, reducing cross-cultural friction. The US represents a massive <em>"Blue Ocean"</em> for soccer, allowing for uncontested market space as the sport's popularity grows there.</p>
+    </div>
+  </section>
+
+  <!-- ========== 21 · Q16 ========== -->
+  <section class="slide" data-title="Q16 · Egypt's Global Image">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q16</span><span class="eyebrow">Part 3 · Soft Power</span></div>
+      <h2>Egypt's Global Image &amp; Economy</h2>
+      <p class="lead">How has Mohamed Salah's success impacted Egypt's global image and economy? Give three examples — and what role can sports figures play in the economic development of emerging markets?</p>
+    </header>
+
+    <h3 class="reveal" style="--d:.10s;margin:16px 0 12px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Impact on Egypt — three examples</h3>
+    <div class="grid3">
+      <div class="card teal reveal zoom" style="--d:.18s;padding:22px 20px">
+        <div class="num teal" style="margin-bottom:12px">1</div>
+        <h3 style="margin-bottom:8px">Soft power &amp; image</h3>
+        <p>Arguably the Arab world's biggest sports star; the Stanford <em>'Salah effect'</em> study gave Egyptians and Muslims a positive global image.</p>
+      </div>
+      <div class="card gold reveal zoom" style="--d:.30s;padding:22px 20px">
+        <div class="num" style="margin-bottom:12px">2</div>
+        <h3 style="margin-bottom:8px">National team success</h3>
+        <p>His late penalty against Congo in 2017 took Egypt to the 2018 World Cup (first since 1990); he captained Egypt's best-ever World Cup in 2026 — first knockout appearance and first knockout win, before a narrow 3-2 loss to Argentina.</p>
+      </div>
+      <div class="card violet reveal zoom" style="--d:.42s;padding:22px 20px">
+        <div class="num violet" style="margin-bottom:12px">3</div>
+        <h3 style="margin-bottom:8px">Economic spill-overs</h3>
+        <p>Brands invest in Egyptian advertising around him (Vodafone Egypt, Pepsi, Bank of Alexandria, Mountain View); he funded hospital, school, youth-centre and water-treatment projects in Nagrig; and he inspires youth participation in sport.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="--d:.54s;margin:20px 0 12px;color:#7ff5e4;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Role of sports figures in emerging markets</h3>
+    <div class="grid3">
+      <div class="card reveal" style="--d:.62s">
+        <h3 style="margin-bottom:8px">Catalyzing sports tourism</h3>
+        <p>Drives expansion of multi-billion-dollar sports tourism — pushing nations to upgrade transport, hospitality and stadium infrastructure to host major events.</p>
+      </div>
+      <div class="card reveal" style="--d:.72s">
+        <h3 style="margin-bottom:8px">Unlocking bilateral trade</h3>
+        <p>Creates new commercial corridors and travel routes as regional trade and tourism agencies launch campaigns to capitalize on an athlete's global movements.</p>
+      </div>
+      <div class="card reveal" style="--d:.82s">
+        <h3 style="margin-bottom:8px">Nurturing grassroots capital</h3>
+        <p>Stimulates micro-entrepreneurship and job creation by shifting local consumption toward sports academies, fitness merchandise and athletic facilities.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 22 · Q17 ========== -->
+  <section class="slide" data-title="Q17 · MENA & Celebrity Endorsements">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q17</span><span class="eyebrow">Part 3 · MENA</span></div>
+      <h2>MENA &amp; Celebrity Endorsements</h2>
+      <p class="lead">How has Salah leveraged his personal brand to create business opportunities, particularly in MENA? How can international businesses use celebrity endorsements and partnerships to expand into new markets — list five.</p>
+    </header>
+
+    <h3 class="reveal" style="--d:.10s;margin:14px 0 10px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">How Salah leverages his brand in MENA</h3>
+    <div class="grid3">
+      <div class="card gold reveal" style="--d:.18s">
+        <h3 style="margin-bottom:8px">Strategic real estate alliances</h3>
+        <p>Anchors high-profile campaigns with Egypt's Mountain View, leveraging his family-values and premium-lifestyle image to drive domestic and regional property sales.</p>
+      </div>
+      <div class="card gold reveal" style="--d:.28s">
+        <h3 style="margin-bottom:8px">Exclusive telecom ecosystems</h3>
+        <p>Partners with Vodafone Egypt for hyper-targeted regional campaigns (e.g. <em>"Mo Salah World"</em> rate plans), using his name to drive customer acquisition across the Arab world.</p>
+      </div>
+      <div class="card gold reveal" style="--d:.38s">
+        <h3 style="margin-bottom:8px">Localized FMCG campaigns</h3>
+        <p>Acts as the regional face for PepsiCo MENA, appearing in culturally resonant commercials that tap into Arab football passion — boosting market share in a competitive sector.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="--d:.48s;margin:18px 0 10px;color:#ff9aa4;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">5 ways MNEs use celebrity partnerships to expand</h3>
+    <div class="grid3">
+      <div class="card reveal" style="--d:.56s"><div class="row"><span class="num red">1</span><p style="color:#dbe3f8;font-size:13.5px">Overcoming the <strong>liability of foreignness</strong> — instant cultural legitimacy and trust in an unfamiliar territory.</p></div></div>
+      <div class="card reveal" style="--d:.64s"><div class="row"><span class="num red">2</span><p style="color:#dbe3f8;font-size:13.5px">Accelerating <strong>brand awareness</strong> — bypassing slow traditional channels via the celebrity's massive social following.</p></div></div>
+      <div class="card reveal" style="--d:.72s"><div class="row"><span class="num red">3</span><p style="color:#dbe3f8;font-size:13.5px">Navigating <strong>cultural and psychic distance</strong> — the celebrity as a cultural translator, avoiding costly PR blunders.</p></div></div>
+      <div class="card reveal" style="--d:.80s"><div class="row"><span class="num red">4</span><p style="color:#dbe3f8;font-size:13.5px">Driving <strong>premium positioning</strong> — associating with an elite icon to justify higher price points.</p></div></div>
+      <div class="card reveal" style="--d:.88s"><div class="row"><span class="num red">5</span><p style="color:#dbe3f8;font-size:13.5px">Fostering <strong>institutional and CSR trust</strong> — philanthropic collaborations build goodwill with governments and communities.</p></div></div>
+      <div class="card teal reveal" style="--d:.96s">
+        <h3 style="margin-bottom:8px;color:#7ff5e4">MENA relevance</h3>
+        <p>His regional recognition and cultural proximity make him the natural anchor for market-entry campaigns across the Middle East and North Africa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 23 · Q18 ========== -->
+  <section class="slide" data-title="Q18 · Managing Global Talent">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q18</span><span class="eyebrow">Part 3 · Talent</span></div>
+      <h2>Managing &amp; Developing Global Talent</h2>
+      <p class="lead">Salah's career trajectory shows the importance of talent development and managing international careers. What three strategies should international companies adopt in a globalised economy?</p>
+    </header>
+
+    <div class="grid3" style="margin-top:34px">
+      <div class="card teal reveal zoom" style="--d:.16s;padding:28px 24px">
+        <div class="num teal" style="margin-bottom:16px">1</div>
+        <h3 style="margin-bottom:10px">Build Cross-Cultural Competence</h3>
+        <p>Train talent to navigate different cultural environments — understanding Hofstede's dimensions such as <em>power distance</em>.</p>
+      </div>
+      <div class="card gold reveal zoom" style="--d:.32s;padding:28px 24px">
+        <div class="num" style="margin-bottom:16px">2</div>
+        <h3 style="margin-bottom:10px">Empower with Autonomy</h3>
+        <p>Delegate effectively. Just as Salah trusts Abbas with contracts, companies must trust local managers with operational decisions.</p>
+      </div>
+      <div class="card violet reveal zoom" style="--d:.48s;padding:28px 24px">
+        <div class="num violet" style="margin-bottom:16px">3</div>
+        <h3 style="margin-bottom:10px">Robust Change Management</h3>
+        <p>Use Kotter's 8 steps to guide talent through major transitions (like international relocations), ensuring they do not retreat into their <em>"comfort zones."</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 24 · Q19 ========== -->
+  <section class="slide" data-title="Q19 · CSR & Corporate Governance">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q19</span><span class="eyebrow">Part 3 · CSR</span></div>
+      <h2>CSR &amp; Corporate Governance</h2>
+      <p class="lead">Salah is known for his charity work (CSR), particularly in Egypt. List five examples — and how can international businesses learn from his approach and integrate similar initiatives into their global operations?</p>
+    </header>
+
+    <div class="card gold reveal" style="--d:.10s;margin-top:14px;padding:14px 20px">
+      <p>Salah's charity work exemplifies the <strong>White Ocean Strategy</strong> — prioritising <em>social</em> impact over <em>profit</em> and focusing on community welfare.</p>
+    </div>
+
+    <h3 class="reveal" style="--d:.20s;margin:14px 0 10px;color:var(--gold2);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Five charity examples in Egypt</h3>
+    <div class="grid3">
+      <div class="card teal reveal" style="--d:.26s">
+        <div class="row"><span class="num teal">1</span><h3>Nagrig Healthcare Complex</h3></div>
+        <p>Financed a fully equipped medical centre, ambulance station and specialized clinics — direct emergency and routine access for rural citizens.</p>
+      </div>
+      <div class="card teal reveal" style="--d:.34s">
+        <div class="row"><span class="num teal">2</span><h3>Educational Infrastructure</h3></div>
+        <p>Funded a modern multi-storey school complex for girls and general education facilities in his hometown, expanding local access to education.</p>
+      </div>
+      <div class="card teal reveal" style="--d:.42s">
+        <div class="row"><span class="num teal">3</span><h3>Clean Water Treatment Plant</h3></div>
+        <p>Invested millions to construct a sewage and water treatment plant — securing a reliable source of clean, safe drinking water for surrounding communities.</p>
+      </div>
+      <div class="card teal reveal" style="--d:.50s">
+        <div class="row"><span class="num teal">4</span><h3>Tahya Misr National Fund Donation</h3></div>
+        <p>Contributed a massive direct donation of <strong>5 million Egyptian pounds</strong> to the state-run national fund supporting country-wide economic development and social safety nets.</p>
+      </div>
+      <div class="card teal reveal" style="--d:.58s">
+        <div class="row"><span class="num teal">5</span><h3>Nagrig Charity Foundation</h3></div>
+        <p>Established a personal foundation providing steady monthly financial stipends, clothing and food packages to impoverished families, orphans and widows.</p>
+      </div>
+      <div class="card violet reveal" style="--d:.66s">
+        <h3 style="margin-bottom:8px;color:#b9a6ff">The White Ocean link</h3>
+        <p>These initiatives are a living example of the White Ocean — long-term trust and social value over short-term market share.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="--d:.74s;margin:18px 0 10px;color:#ff9aa4;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase">Three lessons for international businesses</h3>
+    <div class="grid3">
+      <div class="card red reveal" style="--d:.80s">
+        <div class="row"><span class="num red">1</span><h3>Align CSR with Core Values</h3></div>
+        <p>Move beyond basic legal compliance to actively invest in the community — genuine social responsibilities.</p>
+      </div>
+      <div class="card red reveal" style="--d:.88s">
+        <div class="row"><span class="num red">2</span><h3>Use CSR for Long-Term Trust</h3></div>
+        <p>In emerging markets, sincere community investment builds a resilient brand reputation that an aggressive <em>"Red Ocean"</em> strategy cannot achieve.</p>
+      </div>
+      <div class="card red reveal" style="--d:.96s">
+        <div class="row"><span class="num red">3</span><h3>Embed in Corporate Governance</h3></div>
+        <p>Ensure giving back is part of the systemic checks and balances of the organisation, led by the <strong>Board of Directors</strong> — not a marketing gimmick.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 25 · Q20 ========== -->
+  <section class="slide" data-title="Q20 · Trabzonspor Challenges">
+    <header class="hdr reveal">
+      <div class="hdr-top"><span class="q-badge">Q20</span><span class="eyebrow">Part 3 · Change Management</span></div>
+      <h2>Trabzonspor Move — Top 3 Challenges</h2>
+      <p class="lead">What are the top 3 expected challenges Salah might face in his recent move to the Turkish team — and who manages each one?</p>
+    </header>
+
+    <div class="card red reveal" style="--d:.10s;margin-top:14px;padding:14px 20px">
+      <p>Based on the <strong>2026 data</strong> indicating Salah's free transfer to <strong>Trabzonspor</strong> following a fallout with coach Arne Slot, we can evaluate his challenges through the lens of Change Management and International Business structural shifts.</p>
+    </div>
+
+    <div class="grid3 dense" style="margin-top:14px">
+      <div class="card reveal" style="--d:.22s">
+        <div class="row"><span class="num red">1</span><h3>Homeostasis &amp; Family Disruption</h3></div>
+        <p><strong>Analysis:</strong> According to James O'Toole's concept of <em>homeostasis</em>, humans naturally resist leaving their "Comfort Zone." Salah spent nearly a decade in England, where his children were born and attended school. A move to Turkey creates massive personal and familial upheaval, triggering a "Culture Shock" transition.</p>
+        <p style="margin-top:10px;color:#8fe9ff"><strong>Managed by:</strong> Salah and Ramy Abbas. Abbas handles all off-field logistics and legalities (as he did during the Fiorentina loan) to minimise friction, while Salah and his family actively manage their cultural acclimation.</p>
+      </div>
+      <div class="card reveal" style="--d:.36s">
+        <div class="row"><span class="num">2</span><h3>New Team Dynamics &amp; Leadership</h3></div>
+        <p><strong>Analysis:</strong> Following a public fallout with Arne Slot, Salah must go through Lewin's <em>"Unfreezing"</em> process to let go of old expectations and successfully enter the <em>"Changing"</em> phase under Trabzonspor's coach, <strong>Thomas Reis</strong>. He has to adapt to a completely new tactical system and locker-room culture in the Süper Lig.</p>
+        <p style="margin-top:10px;color:#ffe6a5"><strong>Managed by:</strong> Salah and Coach Thomas Reis. The case notes that Abbas does not interfere with football matters (<em>"Mohamed knows his football"</em>) — Salah must use his own emotional intelligence to buy into Reis's vision.</p>
+      </div>
+      <div class="card reveal" style="--d:.50s">
+        <div class="row"><span class="num violet">3</span><h3>Financial Value in a Lower-Revenue League</h3></div>
+        <p><strong>Analysis:</strong> The Turkish Süper Lig does not command the massive broadcasting and commercial revenues of the English Premier League (as evidenced by Deloitte Money League data). Replicating a contract near his previous targets (<strong>€54–62M</strong>) will be highly challenging — requiring a heavy shift toward performance variables and international image-rights exploitation.</p>
+        <p style="margin-top:10px;color:#c9bcff"><strong>Managed by:</strong> Ramy Abbas (Magic Circle). Abbas legally controls the non-UK image-rights company and negotiates the fixed vs. variable pay splits — creatively structuring Salah's commercial and playing contracts to protect his premium brand value despite operating in a less wealthy league.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 26 · CLOSING ========== -->
+  <section class="slide divider" data-title="Thank You">
+    <div class="ghost">✦</div>
+    <p class="part-tag reveal">End of Presentation</p>
+    <h2 class="reveal" style="--d:.12s">Thank <span class="grad">You</span></h2>
+    <p class="lead reveal" style="--d:.26s;max-width:66ch;margin:18px auto 0;text-align:center">
+      From a failed ethnocentric launch to a globally constructed personal brand —
+      the same frameworks explain both outcomes: root-cause discipline, cultural competence,
+      structural fit, strategic posture and relentless quality control.
+    </p>
+    <div class="chips reveal" style="--d:.42s">
+      <span class="chip">Flexit · Q8</span>
+      <span class="chip">Ocean Strategies · Q12</span>
+      <span class="chip">Salah · Q1 – Q20</span>
+      <span class="chip">Questions?</span>
+    </div>
+  </section>
+
+</main>
+
+<div class="hint">← → to navigate · O for overview</div>
+<div class="counter"><b id="cur">01</b> / <span id="tot">26</span></div>
+
+<div class="controls">
+  <button class="nav-btn" id="prevBtn" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="nav-btn" id="ovBtn" aria-label="Overview">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+  </button>
+  <button class="nav-btn" id="nextBtn" aria-label="Next slide">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<div id="overview">
+  <h3>Jump to slide</h3>
+  <div class="ov-grid" id="ovGrid"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ==========================================================
+     PARTICLE BACKGROUND
+     ========================================================== */
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, DPR = 1;
+  const parts = [];
+
+  function initParticles(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width  = Math.floor(innerWidth * DPR);
+    H = canvas.height = Math.floor(innerHeight * DPR);
+    canvas.style.width  = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+
+    parts.length = 0;
+    const count = Math.min(95, Math.round(innerWidth / 15));
+    for (let i = 0; i < count; i++){
+      const roll = Math.random();
+      parts.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - .5) * .28 * DPR,
+        vy: (Math.random() - .5) * .28 * DPR,
+        r: (Math.random() * 1.5 + .55) * DPR,
+        col: roll > .72 ? '232,185,35' : (roll > .40 ? '46,230,197' : '124,92,255'),
+        a: Math.random() * .45 + .12
+      });
+    }
+  }
+
+  const LINK = 132;
+
+  function frame(){
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < parts.length; i++){
+      const p = parts[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -20) p.x = W + 20; else if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20; else if (p.y > H + 20) p.y = -20;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+      ctx.fillStyle = 'rgba(' + p.col + ',' + p.a + ')';
+      ctx.fill();
+    }
+
+    const maxD = LINK * DPR, maxD2 = maxD * maxD;
+    for (let i = 0; i < parts.length; i++){
+      for (let j = i + 1; j < parts.length; j++){
+        const dx = parts[i].x - parts[j].x;
+        const dy = parts[i].y - parts[j].y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < maxD2){
+          const o = (1 - Math.sqrt(d2) / maxD) * .10;
+          ctx.strokeStyle = 'rgba(150,180,255,' + o + ')';
+          ctx.lineWidth = DPR;
+          ctx.beginPath();
+          ctx.moveTo(parts[i].x, parts[i].y);
+          ctx.lineTo(parts[j].x, parts[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  initParticles();
+  requestAnimationFrame(frame);
+  addEventListener('resize', initParticles);
+
+  /* ==========================================================
+     SLIDE ENGINE
+     ========================================================== */
+  const slides   = Array.from(document.querySelectorAll('.slide'));
+  const curEl    = document.getElementById('cur');
+  const totEl    = document.getElementById('tot');
+  const fill     = document.getElementById('progressFill');
+  const overview = document.getElementById('overview');
+  const ovGrid   = document.getElementById('ovGrid');
+
+  let index = 0;
+
+  totEl.textContent = String(slides.length).padStart(2, '0');
+
+  function pad(n){ return String(n).padStart(2, '0'); }
+
+  function goTo(n){
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === index && slides[n].classList.contains('active')) return;
+
+    slides[index].classList.remove('active');
+    index = n;
+    const s = slides[index];
+    s.classList.add('active');
+    s.scrollTop = 0;
+
+    curEl.textContent = pad(index + 1);
+    fill.style.width = ((index) / (slides.length - 1) * 100) + '%';
+  }
+
+  function next(){ goTo(index + 1); }
+  function prev(){ goTo(index - 1); }
+
+  document.getElementById('nextBtn').addEventListener('click', next);
+  document.getElementById('prevBtn').addEventListener('click', prev);
+  document.getElementById('ovBtn').addEventListener('click', toggleOverview);
+
+  /* Keyboard */
+  document.addEventListener('keydown', function(e){
+    const k = e.key;
+    if (k === 'Escape'){ closeOverview(); return; }
+    if (k === 'o' || k === 'O'){ e.preventDefault(); toggleOverview(); return; }
+
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' '){
+      e.preventDefault(); next();
+    } else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp'){
+      e.preventDefault(); prev();
+    } else if (k === 'Home'){ e.preventDefault(); goTo(0); }
+    else if (k === 'End'){ e.preventDefault(); goTo(slides.length - 1); }
+  });
+
+  /* Touch / swipe */
+  let tX = 0, tY = 0, tT = 0;
+  document.addEventListener('touchstart', function(e){
+    const t = e.changedTouches[0];
+    tX = t.clientX; tY = t.clientY; tT = Date.now();
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    const t = e.changedTouches[0];
+    const dx = t.clientX - tX, dy = t.clientY - tY;
+    const dt = Date.now() - tT;
+    if (dt < 700 && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4){
+      if (dx < 0) next(); else prev();
+    }
+  }, {passive:true});
+
+  /* Wheel navigation (only when slide isn't scrollable) */
+  let wheelLock = false;
+  document.getElementById('deck').addEventListener('wheel', function(e){
+    const s = slides[index];
+    const scrollable = s.scrollHeight > s.clientHeight + 4;
+    if (scrollable){
+      const atTop = s.scrollTop <= 0;
+      const atBottom = s.scrollTop + s.clientHeight >= s.scrollHeight - 2;
+      if (!(e.deltaY < 0 && atTop) && !(e.deltaY > 0 && atBottom)) return;
+    }
+    if (wheelLock) return;
+    if (Math.abs(e.deltaY) < 22) return;
+    wheelLock = true;
+    if (e.deltaY > 0) next(); else prev();
+    setTimeout(function(){ wheelLock = false; }, 720);
+  }, {passive:true});
+
+  /* ==========================================================
+     OVERVIEW
+     ========================================================== */
+  let ovBuilt = false;
+  function buildOverview(){
+    if (ovBuilt) return;
+    slides.forEach(function(s, i){
+      const b = document.createElement('button');
+      b.className = 'ov-item';
+      b.innerHTML = '<span>' + pad(i + 1) + '</span>' + (s.dataset.title || 'Slide');
+      b.addEventListener('click', function(){
+        goTo(i);
+        closeOverview();
+      });
+      ovGrid.appendChild(b);
+    });
+    ovBuilt = true;
+  }
+  function toggleOverview(){
+    buildOverview();
+    overview.classList.toggle('on');
+  }
+  function closeOverview(){ overview.classList.remove('on'); }
+  overview.addEventListener('click', function(e){
+    if (e.target === overview) closeOverview();
+  });
+
+  /* ==========================================================
+     BOOT
+     ========================================================== */
+  slides[0].classList.add('active');
+  curEl.textContent = '01';
+  fill.style.width = '0%';
+
+})();
+</script>
+</body>
+</html>
